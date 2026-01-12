@@ -11,14 +11,14 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the app in a lightweight image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
 # Copy the built jar from previous stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose port (Spring Boot default)
+# Expose port
 EXPOSE 8080
 
 # Run the app
