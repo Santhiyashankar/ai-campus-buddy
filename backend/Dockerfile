@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the app in a lightweight image
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
