@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/req")
-@CrossOrigin(origins = "http://localhost:5173") // for Vite + React
+// for Vite + React
 public class RegistrationController {
 
     private final AppUserRepository repo;
