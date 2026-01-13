@@ -19,6 +19,7 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
-
+# 👇 REQUIRED FOR RENDER
+EXPOSE 8080
 
 ENTRYPOINT ["java","-jar","app.jar"]
