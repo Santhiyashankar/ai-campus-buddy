@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../services/api"; // your axios instance
 
 export default function Register() {
   const navigate = useNavigate();
@@ -18,20 +19,21 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:8080/req/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      // Use Axios instance with baseURL from env
+      const res = await api.post("/signup", form); // /req already in baseURL
 
-      if (!res.ok) {
+      if (res.status === 200 || res.status === 201) {
+        alert("Account created successfully 🎉");
+        navigate("/login");
+      } else {
         throw new Error("Registration failed");
       }
-
-      alert("Account created successfully 🎉");
-      navigate("/login");
-    } catch (err) {
-      alert("User already exists or server error");
+    } catch (err: any) {
+      console.error("Signup error:", err);
+      alert(
+        err.response?.data?.message ||
+          "User already exists or server error"
+      );
     }
   };
 
@@ -39,7 +41,6 @@ export default function Register() {
     <div className="min-h-screen bg-linear-to-br from-indigo-700 via-purple-700 to-pink-600 flex items-center justify-center">
       <div className="w-full max-w-md px-6">
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-10 text-white">
-          
           {/* Header */}
           <h2 className="text-3xl font-extrabold mb-2 text-center">
             Create Account
