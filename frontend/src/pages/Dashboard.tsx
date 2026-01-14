@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import StatCard from "../components/StatCard";
 import TaskCard from "../components/TaskCard";
+import api from "../services/api"; // <-- Axios instance
 
 interface Task {
   id: number;
@@ -24,46 +25,49 @@ export default function Dashboard() {
     completedTasks: 0,
     streak: 0,
   });
-  const [aiTip, setAiTip] = useState<string>(""); // <-- AI Tip state
+  const [aiTip, setAiTip] = useState<string>(""); // AI Tip state
 
   const token = localStorage.getItem("token");
   const email = localStorage.getItem("email");
 
   // Fetch tasks
   useEffect(() => {
-    if (!token || !email) return;
+    if (!email) return;
 
-    fetch(`https://ai-campus-buddy-5.onrender.com/req/tasks/${email}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setTasks(data))
-      .catch(console.error);
-  }, [token, email]);
+    const url = `/tasks/${email}`;
+    console.log("Fetching tasks from:", import.meta.env.VITE_API_BASE_URL + url);
+
+    api
+      .get(url)
+      .then((res) => setTasks(res.data))
+      .catch((err) => console.error("Tasks fetch error:", err));
+  }, [email]);
 
   // Fetch stats
   useEffect(() => {
-    if (!token || !email) return;
+    if (!email) return;
 
-    fetch(`https://ai-campus-buddy-5.onrender.com/req/stats/${email}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setStats(data))
-      .catch(console.error);
-  }, [token, email]);
+    const url = `/stats/${email}`;
+    console.log("Fetching stats from:", import.meta.env.VITE_API_BASE_URL + url);
+
+    api
+      .get(url)
+      .then((res) => setStats(res.data))
+      .catch((err) => console.error("Stats fetch error:", err));
+  }, [email]);
 
   // Fetch AI Tip
   useEffect(() => {
-    if (!token || !email) return;
+    if (!email) return;
 
-    fetch(`https://ai-campus-buddy-5.onrender.com/req/ai/tip/${email}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setAiTip(data.tip)) // <-- backend returns { tip: "..." }
-      .catch(console.error);
-  }, [token, email]);
+    const url = `/ai/tip/${email}`;
+    console.log("Fetching AI tip from:", import.meta.env.VITE_API_BASE_URL + url);
+
+    api
+      .get(url)
+      .then((res) => setAiTip(res.data.tip)) // backend returns { tip: "..." }
+      .catch((err) => console.error("AI tip fetch error:", err));
+  }, [email]);
 
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans">
