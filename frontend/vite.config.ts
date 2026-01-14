@@ -7,11 +7,6 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: './',
-  build: {
-    outDir: 'dist',       // make sure build output goes to 'dist'
-    rollupOptions: {
-      input: '/index.html',
-    },
-  },
-})
+  base: '/',
+ 
+});
