@@ -46,24 +46,38 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sm ->
+                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(auth -> auth
+
+                        // ✅ PUBLIC ENDPOINTS
                         .requestMatchers(
                                 "/req/login",
                                 "/req/signup",
-                                "/req/collaboration/**",
-                                "/ws/**",
-                                "/req/**",
-                                "/req/gamification/**",
-                                "/req/tasks/**", "/req/stats/**", "/req/badges/**",
-                                "/req/profile/**","req/api/**","req/campus-resources/**","req/campus-resources"
-
+                                "/ws/**"
                         ).permitAll()
+
+                        // ✅ PROTECTED DASHBOARD APIs
+                        .requestMatchers(
+                                "/req/tasks/**",
+                                "/req/stats/**",
+                                "/req/ai/**",
+                                "/req/badges/**",
+                                "/req/profile/**",
+                                "/req/gamification/**",
+                                "/req/collaboration/**",
+                                "/req/api/**",
+                                "/req/campus-resources/**"
+                        ).authenticated()
+
+                        // ❗ everything else
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
 }
