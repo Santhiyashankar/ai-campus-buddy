@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import StatCard from "../components/StatCard";
 import TaskCard from "../components/TaskCard";
-import api from "../services/api"; // <-- Axios instance
+import api from "../services/api"; // Axios instance
 
 interface Task {
   id: number;
@@ -27,8 +27,7 @@ export default function Dashboard() {
   });
   const [aiTip, setAiTip] = useState<string>(""); // AI Tip state
 
-  const token = localStorage.getItem("token");
-  const email = localStorage.getItem("email");
+  const email = localStorage.getItem("email"); // only email now
 
   // Fetch tasks
   useEffect(() => {
