@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**") // allow all endpoints
                 .allowedOrigins(
                         "http://localhost:5173", // for local dev
-                        "https://ai-campus-buddy-6.onrender.com" // deployed frontend
+                        "https://ai-campus-buddy-7.onrender.com" // deployed frontend
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true);
