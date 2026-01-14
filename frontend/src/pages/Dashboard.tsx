@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import StatCard from "../components/StatCard";
 import TaskCard from "../components/TaskCard";
-import api from "../services/api"; // <-- Axios instance
 
 interface Task {
   id: number;
@@ -25,7 +24,7 @@ export default function Dashboard() {
     completedTasks: 0,
     streak: 0,
   });
-  const [aiTip, setAiTip] = useState<string>(""); // AI Tip state
+  const [aiTip, setAiTip] = useState<string>(""); // <-- AI Tip state
 
   const token = localStorage.getItem("token");
   const email = localStorage.getItem("email");
@@ -34,30 +33,36 @@ export default function Dashboard() {
   useEffect(() => {
     if (!token || !email) return;
 
-    api
-      .get(`/tasks/${email}`)
-      .then((res) => setTasks(res.data))
-      .catch((err) => console.error("Tasks fetch error:", err));
+    fetch(`https://ai-campus-buddy-5.onrender.com/req/tasks/${email}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => setTasks(data))
+      .catch(console.error);
   }, [token, email]);
 
   // Fetch stats
   useEffect(() => {
     if (!token || !email) return;
 
-    api
-      .get(`/stats/${email}`)
-      .then((res) => setStats(res.data))
-      .catch((err) => console.error("Stats fetch error:", err));
+    fetch(`https://ai-campus-buddy-5.onrender.com/req/stats/${email}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => setStats(data))
+      .catch(console.error);
   }, [token, email]);
 
   // Fetch AI Tip
   useEffect(() => {
     if (!token || !email) return;
 
-    api
-      .get(`/ai/tip/${email}`)
-      .then((res) => setAiTip(res.data.tip)) // backend returns { tip: "..." }
-      .catch((err) => console.error("AI tip fetch error:", err));
+    fetch(`https://ai-campus-buddy-5.onrender.com/req/ai/tip/${email}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => setAiTip(data.tip)) // <-- backend returns { tip: "..." }
+      .catch(console.error);
   }, [token, email]);
 
   return (
