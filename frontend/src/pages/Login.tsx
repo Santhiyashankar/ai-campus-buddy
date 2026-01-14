@@ -1,11 +1,13 @@
 import { useState } from "react";
 import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const login = async () => {
     setError("");
@@ -17,8 +19,8 @@ export default function Login() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("name", res.data.name); 
-
-      window.location.href = "/dashboard";
+      
+      navigate("/dashboard");
     } catch (err: any) {
       if (err.response?.status === 401) {
         setError("Invalid email or password");
