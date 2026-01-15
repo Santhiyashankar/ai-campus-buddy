@@ -57,7 +57,8 @@ public class SecurityConfig {
                                 "/req/badges/**",
                                 "/req/profile/**",
                                 "/req/api/**",
-                                "/req/campus-resources/**"
+                                "/req/campus-resources/**",
+                                "/req/ai/tip"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
