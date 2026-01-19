@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         "http://localhost:5173", // for local dev
                         "https://ai-campus-buddy-7.onrender.com" ,
-                        "https://my-project-w7rv-qlvnl08wz-santhiyashankars-projects.vercel.app"// deployed frontend
+                        "https://my-project-at5t-mj6k6ikqv-santhiyashankars-projects.vercel.app"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true);
